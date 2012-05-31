@@ -1,0 +1,57 @@
+=  Active Record Cache
+
+This gem provides a caching layer to ActiveRecord models that can be activated in a variety of ways and scopes. The cache strategy that is implemented will only work when querying for records by their primary key, so it is not applicable to all situations, but does provide good support for the most common use case.
+
+== Usage
+
+To enable caching on a model, simply add a call to +use_record_cache+ to the class definition:
+
+  class MyModel < ActiveRecord::Base
+    use_record_cache
+  end
+  
+To use the cache, simple add +from_cache+ to a finder chain:
+
+  MyModel.where(:id => params[:id]).from_cache
+
+To make matter easier to use the cache, you can also set a default for a model:
+
+  class MyModel < ActiveRecord::Base
+    use_record_cache :default => true
+  end
+
+You can use the +from_database+ method on you model finders to force a query to hit the database:
+
+  MyModel.where(:id => params[:id]).from_database
+  
+You can also set the default behavior for using the cache on a model within a block:
+
+  ActiveRecordCache.set_defaults(MyModel => true) do
+    # This will use the cache
+    MyModel.where(:id => params[:id])
+  end
+
+  ActiveRecordCache.set_defaults(MyModel => false) do
+    # This will not use the cache
+    MyModel.where(:id => params[:id])
+  end
+
+This last behavior is also available as a Rack handler:
+
+  Rails.configuration.middleware.use(ActiveRecordCache::DefaultsHandler, MyModel => true)
+
+By default, Rails.cache will be used for caching records, but you can specify any implementation of ActiveSupport::Cache::Store you wish.
+
+== Constraints
+
+* Only queries specifically instructed to use the cache will use the cache. This value can be made the default behavior for models where you always want to use the cache.
+
+* Only queries by primary key will hit the cache. Queries may be by more that one primary key.
+
+* Queries can only use the limit and at most one order by statement. Order by statements must be by a single column and can be either in ascending or descending order. Using any other statements in the finder like joins or select will result in the cache being bypassed.
+
+* Records will be returned as read only so that they cannot be saved back to the database when they come through the cache. This is a safety measure to prevent stale data from being used to update the database.
+
+== Expiring
+
+Entries will be expired from the cache whenever they are updated or destroyed. Entries can also be given a time to live with an :expires_in option on either the cache or on the +use_record_cache+ method call. Note that if you don't use a shared cache among all accessors of the record, the records could become out of sync with the database and even among app servers.

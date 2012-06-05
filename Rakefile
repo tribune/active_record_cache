@@ -18,12 +18,12 @@ end
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "tribune-active_record_cache"
+    gem.name = "active_record_cache"
     gem.summary = %Q{This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key.}
     gem.description = %Q{This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key.}
     gem.authors = ["Brian Durand"]
     gem.email = ["bdurand@tribune.com"]
-    gem.files = FileList["lib/**/*", "spec/**/*", "bin/**/*", "example/**/*" "README.rdoc", "Rakefile", "TRIBUNE_CODE"].to_a
+    gem.files = FileList["lib/**/*", "spec/**/*", "bin/**/*", "example/**/*" "README.rdoc", "Rakefile", "License.txt"].to_a
     gem.has_rdoc = true
     gem.rdoc_options << '--line-numbers' << '--inline-source' << '--main' << 'README.rdoc'
     gem.extra_rdoc_files = ["README.rdoc"]

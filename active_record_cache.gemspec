@@ -4,18 +4,19 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = "tribune-active_record_cache"
+  s.name = "active_record_cache"
   s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brian Durand"]
-  s.date = "2012-05-31"
+  s.date = "2012-06-05"
   s.description = "This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key."
   s.email = ["bdurand@tribune.com"]
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
+    "License.txt",
     "Rakefile",
     "lib/active_record_cache.rb",
     "lib/active_record_cache/defaults_handler.rb",

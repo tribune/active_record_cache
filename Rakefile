@@ -22,7 +22,7 @@ begin
     gem.summary = %Q{This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key.}
     gem.description = %Q{This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key.}
     gem.authors = ["Brian Durand"]
-    gem.email = ["bdurand@tribune.com"]
+    gem.email = ["mdobrota@tribune.com", "ddpr@tribune.com"]
     gem.files = FileList["lib/**/*", "spec/**/*", "bin/**/*", "example/**/*" "README.rdoc", "Rakefile", "License.txt"].to_a
     gem.has_rdoc = true
     gem.rdoc_options << '--line-numbers' << '--inline-source' << '--main' << 'README.rdoc'
@@ -32,5 +32,6 @@ begin
     gem.add_development_dependency('rspec', '>= 2.0.0')
     gem.add_development_dependency('sqlite3')
   end
+  Jeweler::RubygemsDotOrgTasks.new
 rescue LoadError
 end

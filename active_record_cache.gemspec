@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = "active_record_cache"
-  s.version = "1.0.2"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brian Durand"]
-  s.date = "2012-06-05"
+  s.date = "2012-06-06"
   s.description = "This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key."
-  s.email = ["bdurand@tribune.com"]
+  s.email = ["mdobrota@tribune.com", "ddpr@tribune.com"]
   s.extra_rdoc_files = [
     "README.rdoc"
   ]

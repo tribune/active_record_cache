@@ -1,11 +1,9 @@
 require 'rubygems'
+require 'bundler'
+Bundler.setup(:default, :development)
 require 'sqlite3'
-
-active_record_version = ENV['ACTIVE_RECORD_VERSION'] || "~>3.0.0"
-gem 'activerecord', active_record_version
-gem 'activesupport', active_record_version
 require 'active_record'
-puts "Testing against #{ActiveRecord::VERSION::STRING}"
+puts "Testing against #{ActiveRecord::VERSION::STRING} (See the Gemfile for how to test different versions)"
 
 begin
   require 'simplecov'
@@ -20,6 +18,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'active_
 
 MY_CACHE = ActiveSupport::Cache::MemoryStore.new
 
+# Upgrade warning: defining 'Rails' breaks ActiveRecord 4.
 module Rails
   def self.cache
     unless defined?(@cache)

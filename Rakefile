@@ -1,4 +1,13 @@
+# coding: utf-8
 require 'rubygems'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
 require 'rake'
 
 desc 'Default: run unit tests'
@@ -11,7 +20,7 @@ begin
   RSpec::Core::RakeTask.new(:test)
 rescue LoadError
   task :test do
-    raise "You must have rspec 2.0 installed to run the tests"
+    raise "You must have rspec installed to run the tests"
   end
 end
 
@@ -27,10 +36,7 @@ begin
     gem.has_rdoc = true
     gem.rdoc_options << '--line-numbers' << '--inline-source' << '--main' << 'README.rdoc'
     gem.extra_rdoc_files = ["README.rdoc"]
-    gem.add_dependency('activerecord', "~>3.0.5")
-    gem.add_dependency('tribune-sort_by_field', "~>1.0.1")
-    gem.add_development_dependency('rspec', '>= 2.0.0')
-    gem.add_development_dependency('sqlite3')
+    # dependencies defined in Gemfile
   end
   Jeweler::RubygemsDotOrgTasks.new
 rescue LoadError

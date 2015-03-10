@@ -1,2 +1,6 @@
 *.swp
 *.gem
+/coverage
+/pkg
+/Gemfile.lock
+/.bundle

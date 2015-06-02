@@ -3,7 +3,7 @@ require 'bundler'
 Bundler.setup(:default, :development)
 require 'sqlite3'
 require 'active_record'
-puts "Testing against #{ActiveRecord::VERSION::STRING} (See the gemspec for how to test different versions)"
+puts "Testing on ActiveRecord #{ActiveRecord::VERSION::STRING}"
 
 begin
   require 'simplecov'

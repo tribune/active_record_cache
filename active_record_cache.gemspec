@@ -16,18 +16,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency 'activerecord', [">= 3.0.5", "< 4.0"]
-  # To test different versions:
-  #  temporarily swap one of these for the above (and delete the Gemfile.lock)
-  #spec.add_runtime_dependency 'activerecord', '~> 3.0.0'
-  #spec.add_runtime_dependency 'activerecord', '~> 3.1.0'
-  #spec.add_runtime_dependency 'activerecord', '~> 3.2.0'
-
-  spec.add_runtime_dependency 'sort_by_field', "~> 1.0.1"
+  spec.add_dependency 'activerecord', ">= 3.2", "< 4.3"
+  spec.add_dependency 'sort_by_field', "~> 1.0.1"
  
-  spec.add_development_dependency 'rspec', ['>= 2.0.0', '< 3.0']
+  spec.add_development_dependency 'rspec', '~> 2.99'
   spec.add_development_dependency 'sqlite3'
-
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "bundler"  , "~> 1.7"
+  spec.add_development_dependency "rake"     , "~> 10.0"
+  spec.add_development_dependency "appraisal", "~> 2.0"
 end

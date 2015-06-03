@@ -5,3 +5,6 @@
 /Gemfile.lock
 /.bundle
 /gemfiles/*.lock
+
+# ctags
+/tags

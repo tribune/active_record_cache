@@ -65,25 +65,25 @@ describe ActiveRecordCache do
     it "should be able to expire a cache entry" do
       key = ActiveRecordCache::Tester.record_cache.cache_key(1)
       Rails.cache.write(key, "boo")
-      Rails.cache.read(key).should == "boo"
+      expect(Rails.cache.read(key)).to eq "boo"
       ActiveRecordCache::Tester.expire_cache_entry(1)
-      Rails.cache.exist?(key).should == false
+      expect(Rails.cache.exist?(key)).to be_falsy
     end
     
     it "should expire an entry when a record is destroyed" do
       key = ActiveRecordCache::Tester.record_cache.cache_key(tester_1.id)
       Rails.cache.write(key, "boo")
-      Rails.cache.exist?(key).should == true
+      expect(Rails.cache.exist?(key)).to be_truthy
       tester_1.destroy
-      Rails.cache.exist?(key).should == false
+      expect(Rails.cache.exist?(key)).to be_falsy
     end
     
     it "should expire an entry when a record is updated" do
       key = ActiveRecordCache::Tester.record_cache.cache_key(tester_1.id)
       Rails.cache.write(key, "boo")
-      Rails.cache.exist?(key).should == true
+      expect(Rails.cache.exist?(key)).to be_truthy
       tester_1.update_attribute(:name, "new value")
-      Rails.cache.exist?(key).should == false
+      expect(Rails.cache.exist?(key)).to be_falsy
     end
     
     it "should inherit caching" do

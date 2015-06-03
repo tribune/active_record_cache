@@ -14,7 +14,7 @@ To use the cache, simple add +from_cache+ to a finder chain:
 
   MyModel.where(:id => params[:id]).from_cache
 
-To make matter easier to use the cache, you can also set a default for a model:
+To use the cache more easily, you can also set a default for a model:
 
   class MyModel < ActiveRecord::Base
     use_record_cache :default => true

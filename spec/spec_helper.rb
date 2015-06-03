@@ -18,7 +18,6 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'active_
 
 MY_CACHE = ActiveSupport::Cache::MemoryStore.new
 
-# Upgrade warning: defining 'Rails' breaks ActiveRecord 4.
 module Rails
   def self.cache
     unless defined?(@cache)
@@ -26,8 +25,10 @@ module Rails
     end
     @cache
   end
+  def self.env
+    @env ||= ActiveSupport::StringInquirer.new('test')
+  end
 end
-
 
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 

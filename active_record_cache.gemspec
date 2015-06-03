@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'active_record_cache/version'
 Gem::Specification.new do |spec|
   spec.name          = "active_record_cache"
-  spec.version       = ActiveRecordCache::VERSION
+  spec.version       = ActiveRecordCache::VERSION.dup  # dup for ruby 1.9
   spec.authors       = ["Brian Durand"]
   spec.email         = ["mdobrota@tribune.com", "ddpr@tribune.com"]
   spec.summary       = 'This gem adds a caching layer to ActiveRecord models when finding them by a numeric primary key.'

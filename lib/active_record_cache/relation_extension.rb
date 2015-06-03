@@ -1,8 +1,13 @@
 module ActiveRecordCache
+  # HACK: this entire module is.
   module RelationExtension
     extend ActiveSupport::Concern
     
-    SIMPLE_ORDER_BY = /^([a-z][a-z0-9_]*)( ?((asc|desc)(ending)?)?)$/i
+    COLUMN_NAME_RXP = /\A[a-z][a-z0-9_]*\z/i
+    # FIXME:
+    #   Use generic whitespace matcher "\s"
+    #   The space probably should be made mandatory with "+", and the whole 2nd outer capture made optional
+    SIMPLE_ORDER_BY = /\A([a-z][a-z0-9_]*)( ?((asc|desc)(ending)?)?)\z/i
     
     included do
       alias_method_chain :to_a, :record_cache
@@ -31,7 +36,7 @@ module ActiveRecordCache
         unless ids.blank?
           records = klass.record_cache.read(ids)
           records = records[0, limit_value.to_i] if limit_value
-          records = records.sort_by_field(order_values.first) unless order_values.empty?
+          records = records.sort_by_field(simple_order_clause) unless order_values.empty?
           if logger && logger.debug?
             logger.debug("  #{klass.name} LOAD FROM RECORD CACHE #{to_sql}")
           end
@@ -59,7 +64,7 @@ module ActiveRecordCache
       from_cache = (query_from_cache_value.nil? ? klass.record_cache.default : query_from_cache_value)
       return false unless from_cache
       return false unless where_values.size == (klass.finder_needs_type_condition? ? 2 : 1)
-      return false unless order_values.blank? || (order_values.size == 1 && order_values.first.to_s.match(SIMPLE_ORDER_BY))
+      return false unless simple_order_by?
       select_col = select_values.first
       select_col = select_col.name if select_col && select_col.respond_to?(:name)
       select_star = select_values.blank? || (select_values.size == 1 && select_col == "*")
@@ -67,6 +72,30 @@ module ActiveRecordCache
       return false unless group_values.blank? && includes_values.blank? && eager_load_values.blank? && preload_values.blank? && joins_values.blank? && having_values.blank? && offset_value.blank?
       return false unless from_value.blank? && lock_value.blank?
       true
+    end
+
+    def simple_order_by?
+      return true if order_values.blank?
+      return false if order_values.size != 1
+
+      case order_v = order_values.first
+      when Arel::Nodes::Ordering  # Rails 4
+        # It's possible that one or both of these checks aren't needed, let's be paranoid.
+        order_v.expr.relation.name.casecmp(self.table_name) == 0 &&
+          order_v.expr.name.to_s.match(COLUMN_NAME_RXP)
+      else                        # Rails 3
+        order_v.to_s.match(SIMPLE_ORDER_BY)
+      end
+    end
+
+    # This should only be called if simple_order_by? is true, and order_values isn't empty.
+    def simple_order_clause
+      case order_v = order_values.first
+      when Arel::Nodes::Ordering  # Rails 4
+        "#{order_v.expr.name} #{order_v.direction}"
+      else                        # Rails 3
+        order_v
+      end
     end
     
     # Get the primary key values used in the query. This will only return a value if the query

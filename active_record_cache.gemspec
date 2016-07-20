@@ -17,7 +17,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'activerecord', ">= 3.2", "< 4.3"
-  spec.add_dependency 'sort_by_field', "~> 1.0.1"
  
   spec.add_development_dependency 'rspec', '~> 2.99'
   spec.add_development_dependency 'sqlite3'
